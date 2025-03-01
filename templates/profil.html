@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Profil</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    {% include 'includes/menu.html' %}
+    <h1>Profilul tau</h1>
+    <ul>
+        <li>Username: {{ user_data.username }}</li>
+        <li>Email: {{ user_data.email }}</li>
+        <li>Numar telefon: {{ user_data.numar_telefon }}</li>
+        <li>Adresa: {{ user_data.adresa }}</li>
+        <li>Data nasterii: {{ user_data.data_nasterii }}</li>
+        <li>Newsletter: {{ user_data.newsletter }}</li>
+        {% if user_data.poza_profil %}
+            <li>Poza profil: <img src="{{ user_data.poza_profil }}" alt="Poza Profil" style="max-width: 300px;"></li>
+        {% endif %}
+    </ul>
+    <a href="{% url 'schimba_parola' %}">Schimba parola</a>
+    <a href="{% url 'logout' %}">Logout</a>
+</body>
+</html>

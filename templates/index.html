@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acasa</title>
+    <style>
+        #banner {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ffcc00;
+            color: #000;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            font-size: 1.2rem;
+            cursor: pointer;
+            animation: slideIn 1s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    {% include 'includes/menu.html' %}
+    <h1>Bun venit!</h1>
+    <p>Verifica ofertele noastre speciale.</p>
+    <div id="banner" onclick="redirectToOffer()">Oferta: Reducere 50%!</div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            if (Math.random() < 0.3 && {{ user.is_authenticated|yesno:"true,false" }}) {
+                document.getElementById("banner").style.display = "block";
+            }
+        });
+
+        function redirectToOffer() {
+            fetch("{% url 'index' %}", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}",
+                    "Content-Type": "application/json"
+                }
+            }).then(response => {
+                if (response.ok) {
+                    window.location.href = "{% url 'oferta' %}";
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalii produs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        img {
+            max-width: 200px;
+            margin: 10px 0;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    {% include 'includes/menu.html' %}
+    <h1>{{ produs.nume }}</h1>
+    <p><strong>Pret:</strong> {{ produs.pret }} RON</p>
+    <p><strong>Culoare:</strong> {{ produs.culoare }}</p>
+    <p><strong>Categorie:</strong> {{ produs.get_categorie_display }}</p>
+    <p><strong>Descriere:</strong> {{ produs.descriere }}</p>
+
+    {% if produs.id_marca %}
+    <p><strong>Marca:</strong> {{ produs.id_marca.nume }}</p>
+    {% endif %}
+
+    {% if produs.id_furnizor %}
+    <p><strong>Furnizor:</strong> {{ produs.id_furnizor.nume }}</p>
+    {% endif %}
+
+    {% if produs.id_promotie %}
+    <p><strong>Promotie:</strong> {{ produs.id_promotie.nume }} ({{ produs.id_promotie.procentaj }}%)</p>
+    {% endif %}
+
+    <h3>Imagini</h3>
+    {% for imagine in produs.imagine_set.all %}
+        <img src="{{ imagine.imagine.url }}" alt="{{ produs.nume }}">
+    {% empty %}
+        <p>Nu exista imagini disponibile pentru acest produs.</p>
+    {% endfor %}
+
+    <h3>Materiale</h3>
+    <ul>
+        {% for material in produs.material_set.all %}
+        <li>{{ material.nume }} - {{ material.get_componenta_display }}</li>
+        {% empty %}
+        <li>Nu exista informații despre materiale.</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Marimi disponibile</h3>
+    <ul>
+        {% for marime in produs.marime_set.all %}
+        <li>Marime: {{ marime.marime }} - Stoc: {{ marime.numar_bucati }}</li>
+        {% empty %}
+        <li>Nu exista mărimi disponibile.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

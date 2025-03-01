@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Profil</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    {% include 'includes/menu.html' %}
+    <h2>Schimba parola</h2>
+    <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Schimba parola</button>
+    </form>
+    <a href="{% url 'profil' %}">Inapoi la profil</a>
+</body>
+</html>

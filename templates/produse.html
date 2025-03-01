@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SneakerShop | Produse</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'produse.css'%}">
+</head>
+
+<body>
+    {% include 'includes/menu.html' %}
+    <div class="container">
+        <h1>Lista Produse</h1>
+        <form method="get" class="filters">
+            <input type="text" name="nume" placeholder="Nume produs" value="{{ request.GET.nume }}">
+            <select name="categorie">
+                <option value="">Toate categoriile</option>
+                {% for key, value in categorii %}
+                    <option value="{{ key }}" {% if request.GET.categorie == key %}selected{% endif %}>{{ value }}</option>
+                {% endfor %}
+            </select>
+            <input type="number" name="pret_min" placeholder="Pret minim" value="{{ request.GET.pret_min }}">
+            <input type="number" name="pret_max" placeholder="Pret maxim" value="{{ request.GET.pret_max }}">
+            <select name="marca">
+                <option value="">Toate marcile</option>
+                {% for marca in marci %}
+                    <option value="{{ marca.nume }}" {% if request.GET.marca == marca.nume %}selected{% endif %}>{{ marca.nume }}</option>
+                {% endfor %}
+            <input type="text" name="culoare" placeholder="Culoare" value="{{ request.GET.culoare }}">
+            <button type="submit">Filtreaza</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nume</th>
+                    <th>Pret</th>
+                    <th>Culoare</th>
+                    <th>Categorie</th>
+                    <th>Marca</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for produs in produse %}
+                <tr>
+                    <td><a href="{% url 'detalii_produs' produs.id %}">{{ produs.nume }}</a></td>
+                    <td>{{ produs.pret }}</td>
+                    <td>{{ produs.culoare }}</td>
+                    <td>{{ produs.get_categorie_display }}</td>
+                    <td>{{ produs.id_marca.nume }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</body>
+
+</html>

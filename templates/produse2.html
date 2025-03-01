@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SneakerShop | Produse</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'produse.css'%}">
+</head>
+
+<body>
+    {% include 'includes/menu.html' %}
+    <div class="container">
+        <h1>Lista Produse</h1>
+        <form method="post" class="filters">
+            {% csrf_token %}
+            {{ form.as_table }}
+            <button type="submit">Filtreaza</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nume</th>
+                    <th>Pret</th>
+                    <th>Culoare</th>
+                    <th>Categorie</th>
+                    <th>Marca</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for produs in produse %}
+                <tr>
+                    <td><a href="{% url 'detalii_produs' produs.id %}">{{ produs.nume }}</a></td>
+                    <td>{{ produs.pret }}</td>
+                    <td>{{ produs.culoare }}</td>
+                    <td>{{ produs.get_categorie_display }}</td>
+                    <td>{{ produs.id_marca.nume }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
